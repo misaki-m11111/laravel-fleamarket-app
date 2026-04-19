@@ -6,7 +6,7 @@
   <title>Document</title>
 </head>
 <body>
-<h1>商品一覧</h1>
+<h2>商品一覧</h2>
 @foreach ($products as $product)
 <a href="/item/{{$product->id }}">
   <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"></a>

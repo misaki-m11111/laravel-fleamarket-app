@@ -7,8 +7,19 @@
 </head>
 <body>
   <h2>ログイン</h2>
+
   <form method="POST" action="/login">
     @csrf
+    @if ($errors->any())
+    <div class="error-messages">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <label>メールアドレス</label>
     <input type="email" name="email">
     <label>パスワード</label>
