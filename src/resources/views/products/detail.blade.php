@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>商品詳細</title>
 </head>
 <body>
-<h1>商品詳細</h1>
-  <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-  <p>{{ $product->name }}</p>
-  <p>{{ $product->price }}</p>
-  <p>{{ $product->description }}</p>
+  <h2>商品詳細</h2>
+    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="500">
+    <p>{{ $product->name }}</p>
+    <p>{{ $product->price }}</p>
+    <p>{{ $product->description }}</p>
 </body>
 </html>

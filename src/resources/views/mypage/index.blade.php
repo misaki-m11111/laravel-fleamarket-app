@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>マイページ</title>
 </head>
 <body>
-<h2>プロフィール</h2>
+<h2>マイページ</h2>
     <div class="mypage-profile">
         <div class="profile-left">
 
@@ -29,21 +29,20 @@
         <a href="/mypage?my=buy">購入した商品</a>
     </div>
 
-@if($products->isEmpty())
-    <p>商品はありません</p>
-@else
+    @if($products->isEmpty())
+        <p>商品はありません</p>
+    @else
+
     @foreach ($products as $product)
     <div class="item">
         <a href="/item/{{$product->id }}">
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="200">
             <p>{{ $product->name }}</p>
             <p>{{ $product->price }}</p>
         </a>
     </div>
-@endforeach
-@endif
-
-
+    @endforeach
+    @endif
 </div>
 </body>
 </html>

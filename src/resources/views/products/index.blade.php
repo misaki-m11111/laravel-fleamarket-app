@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>商品一覧</title>
 </head>
 <body>
 <h2>商品一覧</h2>
-@foreach ($products as $product)
-<a href="/item/{{$product->id }}">
-  <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"></a>
+  @foreach ($products as $product)
+    <a href="/item/{{$product->id }}">
+    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="500"></a>
     <p>{{ $product->name }}</p>
     <p>{{ $product->price }}</p>
-@endforeach
+  @endforeach
 </body>
 </html>
