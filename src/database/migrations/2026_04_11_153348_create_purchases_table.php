@@ -10,7 +10,7 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade')->unique();
+            $table->foreignId('item_id')->constrained()->onDelete('cascade')->unique();
             $table->string('address');
             $table->tinyInteger('payment_method');
             $table->timestamps();

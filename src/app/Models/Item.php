@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Product extends Model
+class Item extends Model
 {
     use HasFactory;
 
@@ -24,7 +24,17 @@ class Product extends Model
         'is_sold',
         'sold_at',
     ];
+    const CONDITIONS = [
+        1 => '良好',
+        2 => '目立った傷や汚れなし',
+        3 => 'やや傷や汚れあり',
+        4 => '状態が悪い',
+    ];
 
+    public function getConditionLabelAttribute()
+    {
+        return self::CONDITIONS[$this->condition] ?? '';
+    }
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

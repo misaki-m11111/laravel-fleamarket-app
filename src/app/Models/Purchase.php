@@ -12,7 +12,7 @@ class Purchase extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
+        'item_id',
         'address',
         'payment_method',
     ];
@@ -21,8 +21,8 @@ class Purchase extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product(): BelongsTo
+    public function item(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Item::class);
     }
 }

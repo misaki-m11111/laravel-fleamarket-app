@@ -9,17 +9,17 @@ class MypageController extends Controller
     public function index(Request $request){
         $user = auth()->user();
         $profile = $user->profile;
-        $products = $user->products;
+        $items = $user->items;
         $tab = $request->query('my','sell');
 
         if($tab === 'buy'){
-            $products = $user->purchase->map(function($purchase){
-                return $purchase->product;
+            $items = $user->purchase->map(function($purchase){
+                return $purchase->item;
             });
         }else{
-            $products  = $user->products;
+            $items  = $user->items;
         }
 
-        return  view('mypage.index',compact('user','profile','products','tab',));
+        return  view('mypage.index',compact('user','profile','items','tab',));
     }
 }

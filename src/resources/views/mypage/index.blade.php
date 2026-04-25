@@ -29,16 +29,16 @@
         <a href="/mypage?my=buy">購入した商品</a>
     </div>
 
-    @if($products->isEmpty())
+    @if($items->isEmpty())
         <p>商品はありません</p>
     @else
 
-    @foreach ($products as $product)
+    @foreach ($items as $item)
     <div class="item">
-        <a href="/item/{{$product->id }}">
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="200">
-            <p>{{ $product->name }}</p>
-            <p>{{ $product->price }}</p>
+        <a href="/item/{{$item->id }}">
+            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="200">
+            <p>{{ $item->name }}</p>
+            <p>{{ $item->price }}</p>
         </a>
     </div>
     @endforeach
