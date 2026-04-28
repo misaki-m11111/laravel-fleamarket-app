@@ -18,5 +18,7 @@ Route::get('/mypage',[MypageController::class,'index'])->middleware('auth');
 Route::get('/mypage/profile',[ProfileController::class,'edit'])->middleware('auth');
 Route::post('/mypage/profile',[ProfileController::class,'update'])->middleware('auth');
 
-Route::get('/purchase/{id}',[PurchaseController::class,'create'])->middleware('auth');
-Route::post('/purchase/{id}',[PurchaseController::class,'store'])->middleware('auth');
+Route::get('/purchase/{item_id}',[PurchaseController::class,'create'])->middleware('auth');
+Route::post('/purchase/{item_id}',[PurchaseController::class,'store'])->middleware('auth');
+Route::get('/purchase/address/{item_id}',[PurchaseController::class,'editAddress'])->middleware('auth');
+Route::post('/purchase/address/{item_id}',[PurchaseController::class,'updateAddress'])->middleware('auth');

@@ -13,10 +13,12 @@ class Purchase extends Model
     protected $fillable = [
         'user_id',
         'item_id',
+        'post_code',
         'address',
+        'building',
         'payment_method',
     ];
-            public function user(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

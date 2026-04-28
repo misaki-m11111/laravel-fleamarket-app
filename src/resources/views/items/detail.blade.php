@@ -24,5 +24,13 @@
 </p>
 
 <p>商品の状態: {{ $item->condition_label }}</p>
+
+<h2>コメント</h2>
+
+<h3>商品へのコメント</h3>
+
+        @if($item->sold_at)
+      <p style="color:red;">SOLD</p>
+    @endif
 </body>
 </html>

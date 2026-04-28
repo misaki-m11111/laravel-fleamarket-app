@@ -39,6 +39,10 @@
             <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="200">
             <p>{{ $item->name }}</p>
             <p>{{ $item->price }}</p>
+
+        @if ($item->sold_at)
+            <p style="color:red;">SOLD</p>
+        @endif
         </a>
     </div>
     @endforeach
@@ -46,3 +50,4 @@
 </div>
 </body>
 </html>
+

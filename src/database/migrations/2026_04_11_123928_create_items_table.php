@@ -19,7 +19,6 @@ class CreateItemsTable extends Migration
             $table->string('brand_name')->nullable();
             $table->text('description');
             $table->tinyInteger('condition');
-            $table->boolean('is_sold')->default(false);
             $table->timestamp('sold_at')->nullable();
             $table->timestamps();
         });

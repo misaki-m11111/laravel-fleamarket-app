@@ -9,7 +9,7 @@
 
   <h2>商品購入</h2>
 
-  <form method="POST" action="">
+  <form action="/purchase/{{ $item->id }}" method="post">
     @csrf
 
     <input type="hidden" name="item_id" value="{{ $item->id }}">
