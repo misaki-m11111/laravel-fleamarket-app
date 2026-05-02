@@ -8,12 +8,30 @@ use App\Models\Item;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // ① 今どのタブか取得
+        $tab = $request->query('tab', 'recommend');
 
-        $items = Item::all();
+        // ② タブごとに処理を分ける
+        if ($tab === 'mylist') {
+            // いいね未実装なので仮
+            $items = collect();
 
-        return  view('items.index', compact('items'));
+            // 実装後イメージ
+            // $items = auth()->user()
+            //     ->likes()
+            //     ->with('item')
+            //     ->get()
+            //     ->pluck('item');
+
+        } else {
+            // おすすめ（今まで通り）
+            $items = Item::all();
+        }
+
+        // ③ tabも一緒に渡す
+        return view('items.index', compact('items', 'tab'));
     }
 
     public function show($item_id)

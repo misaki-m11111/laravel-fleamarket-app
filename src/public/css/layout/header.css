@@ -1,0 +1,48 @@
+.header {
+    background-color: #000000;
+    border-bottom: 1px solid #ddd;
+}
+
+.header__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__logo img {
+    height: 30px;
+}
+
+/* 検索欄 */
+.header__search input {
+    width: 300px;
+    padding: 6px;
+}
+
+/* ナビ */
+.header__nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ボタン風 */
+.header__nav a,
+.header__nav button {
+    text-decoration: none;
+    color: #333;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* 出品ボタン */
+.header__sell {
+    background: black;
+    color: #fff;
+    padding: 6px 12px;
+}

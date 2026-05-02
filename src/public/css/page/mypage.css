@@ -1,0 +1,49 @@
+.mypage-profile {
+    max-width: 900px;
+    margin: 50px auto 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+.mypage-profile__info {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.mypage-profile__name p {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.mypage-profile__edit {
+    margin-right: 80px;
+}
+
+.mypage-profile__edit a {
+    display: inline-block;
+    border: 2px solid #ff5555;
+    color: #ff5555;
+    padding: 12px 44px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.mypage-tabs {
+    width: 100%;
+    padding: 20px 80px;
+}
+
+.mypage__items-index {
+    padding: 32px 48px;
+}
+
+.mypage__items-list {
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 24px;
+}

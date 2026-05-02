@@ -1,25 +1,66 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-<h2>会員登録</h2>
-<form method="POST" action="/register">
-    @csrf
-    <label>ユーザー名</label>
-    <input type="text" name="name">
-    <label>メールアドレス</label>
-    <input type="email" name="email">
-    <label>パスワード</label>
-    <input type="password" name="password">
-    <label>確認用パスワード</label>
-    <input type="password" name="password_confirmation">
-    <button type="submit">登録する</button>
-</form>
+@extends('layouts.app')
 
-  <a href="/login">ログインはこちら</a>
-</body>
-</html>
+@section('title', '会員登録')
+
+@section('content')
+<div class="form">
+    <h1 class="form__title">会員登録</h1>
+
+    <form method="POST" action="/register" class="form__form">
+        @csrf
+
+        <div class="form__group">
+            <label class="form__label">ユーザー名</label>
+            <input
+                type="text"
+                name="name"
+                value="{{ old('name') }}"
+                class="form__input"
+            >
+            @error('name')
+                <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="form__group">
+            <label class="form__label">メールアドレス</label>
+            <input
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                class="form__input"
+            >
+            @error('email')
+                <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="form__group">
+            <label class="form__label">パスワード</label>
+            <input
+                type="password"
+                name="password"
+                class="form__input"
+            >
+            @error('password')
+                <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="form__group">
+            <label class="form__label">確認用パスワード</label>
+            <input
+                type="password"
+                name="password_confirmation"
+                class="form__input"
+            >
+        </div>
+
+        <button type="submit" class="form__button">登録する</button>
+    </form>
+
+    <p class="form__link">
+        <a href="/login">ログインはこちら</a>
+    </p>
+</div>
+@endsection

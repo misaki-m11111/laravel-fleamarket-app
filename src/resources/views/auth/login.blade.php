@@ -1,31 +1,44 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h2>ログイン</h2>
+@extends('layouts.app')
 
-  <form method="POST" action="/login">
-    @csrf
-    @if ($errors->any())
-    <div class="error-messages">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@section('title', 'ログイン')
 
-    <label>メールアドレス</label>
-    <input type="email" name="email">
-    <label>パスワード</label>
-    <input type="password" name="password">
-    <button type="submit">ログイン</button>
-</form>
-<a  href="/register">会員登録はこちら</a>
-</body>
-</html>
+@section('content')
+<div class="form">
+    <h1 class="form__title">ログイン</h1>
+
+    <form method="POST" action="/login" class="form__form">
+        @csrf
+
+        <div class="form__group">
+            <label class="form__label">メールアドレス</label>
+            <input
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                class="form__input"
+            >
+            @error('email')
+                <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="form__group">
+            <label class="form__label">パスワード</label>
+            <input
+                type="password"
+                name="password"
+                class="form__input"
+            >
+            @error('password')
+                <p class="form__error">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <button type="submit" class="form__button">ログイン</button>
+    </form>
+
+    <p class="form__link">
+        <a href="/register">会員登録はこちら</a>
+    </p>
+</div>
+@endsection

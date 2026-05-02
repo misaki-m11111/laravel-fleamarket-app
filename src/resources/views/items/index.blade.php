@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品一覧</title>
-</head>
-<body>
-<h2>商品一覧</h2>
-  @foreach ($items as $item)
-    <a href="/item/{{$item->id }}">
-    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="500"></a>
-    <p>{{ $item->name }}</p>
-    <p>{{ $item->price }}</p>
+@extends('layouts.app')
 
-        @if($item->sold_at)
-      <p style="color:red;">SOLD</p>
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/layout/tabs.css') }}">
+<link rel="stylesheet" href="{{ asset('css/component/item-card.css') }}">
+<link rel="stylesheet" href="{{ asset('css/page/item-index.css') }}">
+@endsection
+
+@section('content')
+<div class="tabs item-tabs">
+    <a href="/" class="tabs__link {{ $tab === 'recommend' ? 'active' : '' }}">おすすめ</a>
+    <a href="/?tab=mylist" class="tabs__link {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
+</div>
+
+<div class="items-index">
+    @if($items->isEmpty())
+        <p>商品はありません</p>
+    @else
+        <div class="item-list items-index__list">
+            @foreach ($items as $item)
+                <x-item-card :item="$item" />
+            @endforeach
+        </div>
     @endif
-
-  @endforeach
-</body>
-</html>
+</div>
+@endsection

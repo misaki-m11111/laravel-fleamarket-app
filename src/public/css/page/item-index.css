@@ -1,0 +1,13 @@
+.item-tabs {
+    width: 100%;
+    padding: 20px 80px 0;
+}
+
+.items-index {
+    padding: 32px 48px;
+}
+
+.items-index__list {
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 24px;
+}
