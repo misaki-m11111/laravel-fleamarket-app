@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title','商品一覧')
+
+@endsection
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/layout/tabs.css') }}">
 <link rel="stylesheet" href="{{ asset('css/component/item-card.css') }}">

@@ -1,46 +1,71 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品購入</title>
-</head>
-<body>
+@extends('layouts.app')
 
-  <h2>商品購入</h2>
+@section('title', '商品購入')
 
-  <form action="/purchase/{{ $item->id }}" method="post">
-    @csrf
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/page/purchase.css') }}">
+@endsection
 
-    <input type="hidden" name="item_id" value="{{ $item->id }}">
+@section('content')
+<div class="purchase">
+    <form action="/purchase/{{ $item->id }}" method="post" class="purchase__form">
+        @csrf
 
-    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" width="300">
-    <p>商品名：{{ $item->name }}</p>
-    <p>価格：￥{{ number_format($item->price) }}円</p>
+        <input type="hidden" name="item_id" value="{{ $item->id }}">
 
-    <h3>支払い方法</h3>
-    <select name="payment_method">
-      <option value="1" {{ old('payment_method') == 1 ? 'selected' : '' }}>コンビニ払い</option>
-      <option value="2" {{ old('payment_method') == 2 ? 'selected' : '' }}>クレジットカード払い</option>
-    </select>
+        <div class="purchase__left">
+            <div class="purchase-item">
+                <div class="purchase-item__image">
+                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
+                </div>
 
-    <h3>配送先</h3>
-    <a href="/purchase/address/{{ $item->id }}">変更する</a>
+                <div class="purchase-item__info">
+                    <h2 class="purchase-item__name">{{ $item->name }}</h2>
+                    <p class="purchase-item__price">￥{{ number_format($item->price) }}</p>
+                </div>
+            </div>
 
-    <p>〒{{ $profile->post_code ?? '' }}</p>
-    <p>{{ $profile->address ?? '' }}</p>
-    <p>{{ $profile->building ?? '' }}</p>
+            <div class="purchase-section">
+                <h3 class="purchase-section__title">支払い方法</h3>
 
-    <h3>商品代金</h3>
-    <p>{{ number_format($item->price) }}円</p>
+                <select name="payment_method" class="purchase-section__select">
+                    <option value="">選択してください</option>
+                    <option value="1" {{ old('payment_method') == 1 ? 'selected' : '' }}>コンビニ払い</option>
+                    <option value="2" {{ old('payment_method') == 2 ? 'selected' : '' }}>クレジットカード払い</option>
+                </select>
+            </div>
 
-    <h3>支払い方法</h3>
-    <!-- 仮表示（JSなし） -->
-    <p>※選択した支払い方法は購入確定時に反映されます</p>
+            <div class="purchase-section">
+                <div class="purchase-section__heading">
+                    <h3 class="purchase-section__title">配送先</h3>
+                    <a href="/purchase/address/{{ $item->id }}" class="purchase-section__link">変更する</a>
+                </div>
 
-    <button type="submit">購入する</button>
+                <div class="purchase-address">
+                    <p>〒 {{ $profile->post_code ?? '' }}</p>
+                    <p>
+                        {{ $profile->address ?? '' }}
+                        {{ $profile->building ?? '' }}
+                    </p>
+                </div>
+            </div>
+        </div>
 
-  </form>
+        <div class="purchase__right">
+            <div class="purchase-summary">
+                <div class="purchase-summary__row">
+                    <p>商品代金</p>
+                    <p>￥{{ number_format($item->price) }}</p>
+                </div>
 
-</body>
-</html>
+                <div class="purchase-summary__row">
+                    <p>支払い方法</p>
+                    <p>コンビニ払い</p>
+                </div>
+            </div>
+
+            <button type="submit" class="purchase__button">購入する</button>
+        </div>
+    </form>
+</div>
+@endsection

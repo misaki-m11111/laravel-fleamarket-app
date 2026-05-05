@@ -38,7 +38,7 @@ class ItemController extends Controller
     {
         $item = Item::with('categories')->findOrFail($item_id);
 
-        return  view('items.detail', compact('item'));
+        return  view('items.show', compact('item'));
     }
 
     public function create()
