@@ -10,27 +10,26 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        // ① 今どのタブか取得
         $tab = $request->query('tab', 'recommend');
 
-        // ② タブごとに処理を分ける
         if ($tab === 'mylist') {
-            // いいね未実装なので仮
-            $items = collect();
-
-            // 実装後イメージ
-            // $items = auth()->user()
-            //     ->likes()
-            //     ->with('item')
-            //     ->get()
-            //     ->pluck('item');
-
+            if (!auth()->check()) {
+                $items = collect();
+            } else {
+                $items = auth()->user()
+                    ->likes()
+                    ->with('item')
+                    ->get()
+                    ->pluck('item');
+            }
         } else {
-            // おすすめ（今まで通り）
-            $items = Item::all();
+            if (auth()->check()) {
+                $items = Item::where('user_id', '!=', auth()->id())->get();
+            } else {
+                $items = Item::all();
+            }
         }
 
-        // ③ tabも一緒に渡す
         return view('items.index', compact('items', 'tab'));
     }
 

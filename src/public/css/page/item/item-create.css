@@ -1,0 +1,94 @@
+.sell-form {
+    width: 600px;
+    margin: 40px auto 80px;
+}
+
+.sell-form__title {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.sell-form__body {
+    width: 100%;
+    margin: 0;
+}
+
+.sell-form__image-box {
+    height: 150px;
+    border: 1px dashed #b5b5b5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sell-form__file-input {
+    display: none;
+}
+
+.sell-form__file-button {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border: 1px solid #ff5555;
+    border-radius: 6px;
+
+    color: #ff5555;
+    background: #fff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.sell-form__section-title {
+    color: #5f5f5f;
+    font-size: 20px;
+    border-bottom: 1px solid #5f5f5f;
+    padding-bottom: 8px;
+    margin: 35px 0 20px;
+}
+
+.sell-form__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.sell-form .form__label {
+    font-weight: 700;
+}
+
+.sell-form .form__input::placeholder {
+    color: #000000;
+    font-weight: 700;
+}
+
+.sell-form__category input {
+    display: none;
+}
+
+.sell-form__category span {
+    display: inline-block;
+    padding: 4px 14px;
+    border: 1px solid #ff5555;
+    border-radius: 20px;
+    color: #ff5555;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.sell-form__category input:checked + span {
+    background: #ff5555;
+    color: #fff;
+}
+
+.sell-form__textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.sell-form__button {
+    margin-top: 50px;
+}

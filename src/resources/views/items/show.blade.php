@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/component/user-icon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/component/item-card.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form/form.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/page/item-show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page/item/item-show.css') }}">
 @endsection
 
 @section('content')

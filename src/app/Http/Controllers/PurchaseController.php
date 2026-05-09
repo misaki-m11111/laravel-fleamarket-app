@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\Purchase;
-
+use Faker\Provider\Payment;
 use Illuminate\View\Component;
 
 class PurchaseController extends Controller
 {
-    public function create($item_id)
+    public function create(Request $request,$item_id)
     {
         $user = auth()->user();
         $item =  Item::findOrFail($item_id);
@@ -20,7 +20,7 @@ class PurchaseController extends Controller
             return redirect('/');
         }
 
-        return view('purchase.create', compact('item', 'user', 'profile'));
+        return view('purchase.create', compact('item', 'user', 'profile',));
     }
 
     public function store(Request $request, $item_id)

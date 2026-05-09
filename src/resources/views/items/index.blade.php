@@ -2,17 +2,15 @@
 
 @section('title','商品一覧')
 
-@endsection
-
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/layout/tabs.css') }}">
 <link rel="stylesheet" href="{{ asset('css/component/item-card.css') }}">
-<link rel="stylesheet" href="{{ asset('css/page/item-index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/page/item/item-index.css') }}">
 @endsection
 
 @section('content')
 <div class="tabs item-tabs">
-    <a href="/" class="tabs__link {{ $tab === 'recommend' ? 'active' : '' }}">おすすめ</a>
+    <a href="/?tab=recommend" class="tabs__link {{ $tab === 'recommend' ? 'active' : '' }}">おすすめ</a>
     <a href="/?tab=mylist" class="tabs__link {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
 </div>
 
