@@ -3,25 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Like;
-use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    public function store($item_id)
+    public function store(int $item_id)
     {
         Like::create([
-            'user_id'=>auth()->id(),
-            'item_id'=>$item_id,
+            'user_id' => auth()->id(),
+            'item_id' => $item_id,
         ]);
 
         return back();
     }
 
-    public function destroy($item_id)
+    public function destroy(int $item_id)
     {
-        Like::where('user_id',auth()->id())
-        ->where('item_id',$item_id)
-        ->delete();
+        Like::where('user_id', auth()->id())
+            ->where('item_id', $item_id)
+            ->delete();
 
         return back();
     }

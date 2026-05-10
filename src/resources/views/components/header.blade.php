@@ -13,7 +13,7 @@
                 @auth
                     <form action="/logout" method="POST">
                         @csrf
-                        <button type="submit">ログアウト</button>
+                        <button type="submit" class="header__button">ログアウト</button>
                     </form>
 
                     <a href="/mypage" class="header__link">マイページ</a>

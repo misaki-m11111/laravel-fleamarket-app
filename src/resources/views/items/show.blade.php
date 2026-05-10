@@ -98,6 +98,10 @@
 
                     <textarea name="content" class="comment-form__textarea">{{ old('content') }}</textarea>
 
+                    @error('content')
+                        <p class="form__error">{{ $message }}</p>
+                    @enderror
+
                     <button type="submit" class="form__button">コメントを送信する</button>
                 </form>
             </section>

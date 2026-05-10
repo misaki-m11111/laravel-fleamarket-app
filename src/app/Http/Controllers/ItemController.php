@@ -3,37 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Models\Item;
+use App\Models\Category;
 
 class ItemController extends Controller
 {
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'recommend');
+        $keyword = $request->keyword;
 
         if ($tab === 'mylist') {
             if (!auth()->check()) {
                 $items = collect();
             } else {
-                $items = auth()->user()
-                    ->likes()
+                /** @var \App\Models\User $user */
+                $user = auth()->user();
+
+                $items = $user->likes()
                     ->with('item')
                     ->get()
                     ->pluck('item');
+
+                if (!empty($keyword)) {
+                    $items = $items->filter(function ($item) use ($keyword) {
+                        return str_contains($item->name, $keyword);
+                    });
+                }
             }
         } else {
+            $query = Item::query();
+
             if (auth()->check()) {
-                $items = Item::where('user_id', '!=', auth()->id())->get();
-            } else {
-                $items = Item::all();
+                $query->where('user_id', '!=', auth()->id());
             }
+
+            if (!empty($keyword)) {
+                $query->where('name', 'like', '%' . $keyword . '%');
+            }
+
+            $items = $query->get();
         }
 
         return view('items.index', compact('items', 'tab'));
     }
 
-    public function show($item_id)
+    public function show(int $item_id)
     {
         $item = Item::with('categories')->findOrFail($item_id);
 

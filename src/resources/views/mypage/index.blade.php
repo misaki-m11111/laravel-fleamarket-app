@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'マイページ')
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/layout/tabs.css') }}">
     <link rel="stylesheet" href="{{ asset('css/component/item-card.css') }}">
-
     <link rel="stylesheet" href="{{ asset('css/component/user-icon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/page/mypage.css') }}">
 @endsection

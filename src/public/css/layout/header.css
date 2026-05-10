@@ -53,6 +53,7 @@
 }
 
 .header__sell {
+    text-decoration: none;
     background: #fff;
     color: #000;
     padding: 8px 18px;

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\AddressRequest;
 use App\Models\Item;
-use Illuminate\Http\Request;
 use App\Models\Purchase;
-use Faker\Provider\Payment;
-use Illuminate\View\Component;
 
 class PurchaseController extends Controller
 {
-    public function create(Request $request,$item_id)
+    public function create(int $item_id)
     {
         $user = auth()->user();
         $item =  Item::findOrFail($item_id);
@@ -23,7 +22,7 @@ class PurchaseController extends Controller
         return view('purchase.create', compact('item', 'user', 'profile',));
     }
 
-    public function store(Request $request, $item_id)
+    public function store(PurchaseRequest $request, int $item_id)
     {
         $user = auth()->user();
         $item = Item::findOrFail($item_id);
@@ -49,24 +48,24 @@ class PurchaseController extends Controller
         return redirect('/');
     }
 
-    public function editaddress($item_id)
+    public function editAddress(int $item_id)
     {
-    $user = auth()->user();
-    $profile = $user->profile;
-    $item = Item::findOrFail($item_id);
+        $user = auth()->user();
+        $profile = $user->profile;
+        $item = Item::findOrFail($item_id);
 
-    return view('purchase.address',compact('user','profile','item'));
+        return view('purchase.address', compact('user', 'profile', 'item'));
     }
 
-    public function updateaddress(Request $request,$item_id)
+    public function updateAddress(AddressRequest $request, int $item_id)
     {
         $user = auth()->user();
         $profile = $user->profile;
 
-        $profile->update = ([
-        'post_code'=> $request->post_code,
-        'address'=> $request->address,
-        'building'=> $request->building,
+        $profile->update([
+            'post_code' => $request->post_code,
+            'address' => $request->address,
+            'building' => $request->building,
         ]);
 
         return redirect('/purchase/' . $item_id);
