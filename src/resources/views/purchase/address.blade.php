@@ -6,9 +6,9 @@
     <div class="form">
         <h1 class="form__title">住所の変更</h1>
 
-        <form action="/purchase/address/{{ $item->id }}" method="PUT" class="form__form">
+        <form action="/purchase/address/{{ $item->id }}" method="POST" class="form__form">
             @csrf
-
+            @method('PUT')
             <div class="form__group">
                 <label class="form__label">郵便番号</label>
                 <input type="text" name="post_code" value="{{ old('post_code', $profile->post_code ?? '') }}"

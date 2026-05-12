@@ -11,20 +11,22 @@ use App\Http\Controllers\PurchaseController;
 Route::get('/', [ItemController::class, 'index']);
 Route::get('/item/{item_id}', [ItemController::class, 'show']);
 
-Route::get('/sell', [ItemController::class, 'create'])->middleware('auth');
-Route::post('/sell', [ItemController::class, 'store'])->middleware('auth');
+Route::middleware('auth')->group(function () {
+  Route::get('/sell', [ItemController::class, 'create']);
+  Route::post('/sell', [ItemController::class, 'store']);
 
-Route::post('/like/{item_id}', [LikeController::class, 'store'])->middleware('auth');
-Route::delete('/like/{item_id}', [LikeController::class, 'destroy'])->middleware('auth');
+  Route::post('/like/{item_id}', [LikeController::class, 'store']);
+  Route::delete('/like/{item_id}', [LikeController::class, 'destroy']);
 
-Route::post('/comment/{item_id}', [CommentController::class, 'store'])->middleware('auth');
+  Route::post('/comment/{item_id}', [CommentController::class, 'store']);
 
-Route::get('/mypage', [MypageController::class, 'index'])->middleware('auth');
+  Route::get('/mypage', [MypageController::class, 'index']);
 
-Route::get('/mypage/profile', [ProfileController::class, 'edit'])->middleware('auth');
-Route::put('/mypage/profile', [ProfileController::class, 'update'])->middleware('auth');
+  Route::get('/mypage/profile', [ProfileController::class, 'edit']);
+  Route::put('/mypage/profile', [ProfileController::class, 'update']);
 
-Route::get('/purchase/{item_id}', [PurchaseController::class, 'create'])->middleware('auth');
-Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->middleware('auth');
-Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress'])->middleware('auth');
-Route::put('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->middleware('auth');
+  Route::get('/purchase/{item_id}', [PurchaseController::class, 'create']);
+  Route::post('/purchase/{item_id}', [PurchaseController::class, 'store']);
+  Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress']);
+  Route::put('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress']);
+});

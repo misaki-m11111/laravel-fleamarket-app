@@ -17,15 +17,17 @@ class ProfileController extends Controller
 
     public function update(ProfileRequest $request)
     {
+
+        /** @var \App\Models\User $user */
         $user = auth()->user();
+
         $profile = $user->profile;
 
         if (!$profile) {
             $profile = new Profile();
             $profile->user_id = $user->id;
         }
-        /** @var \App\Models\User $user */
-        $user = auth()->user();
+
         $user->name = $request->name;
         $user->save();
 
@@ -39,12 +41,11 @@ class ProfileController extends Controller
             }
 
             $path = $request->file('image')->store('profiles', 'public');
-
             $profile->image = $path;
         }
 
         $profile->save();
 
-        return redirect('/');
+        return redirect('/mypage');
     }
 }

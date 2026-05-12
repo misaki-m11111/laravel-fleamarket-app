@@ -11,9 +11,9 @@
     <div class="form profile">
         <h1 class="form__title">プロフィール設定</h1>
 
-        <form action="/mypage/profile" method="PUT" enctype="multipart/form-data" class="form__form">
+        <form action="/mypage/profile" method="POST" enctype="multipart/form-data" class="form__form">
             @csrf
-
+            @method('PUT')
             <div class="profile__image-area">
                 <x-user-icon :user="$user" />
 
