@@ -11,6 +11,17 @@
     position: relative;
 }
 
+.item-show__sold {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #ff5555;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .item-show__image {
     width: 100%;
     aspect-ratio: 1 / 1;

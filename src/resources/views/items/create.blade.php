@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '商品出品')
+@section('title', '商品の出品')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/form/form.css') }}">
@@ -12,7 +12,7 @@
     <div class="sell-form">
         <h1 class="form__title sell-form__title">商品の出品</h1>
 
-        <form class="form sell-form__body" method="POST" action="/sell" enctype="multipart/form-data">
+        <form action="/sell" method="POST" class="form sell-form__body" enctype="multipart/form-data">
             @csrf
 
             <div class="form__group">
@@ -104,7 +104,7 @@
             <div class="form__group">
                 <label class="form__label">販売価格</label>
 
-                <input class="form__input" type="number" name="price" value="{{ old('price') }}" placeholder="¥">
+                <input class="form__input" type="text" name="price" value="{{ old('price') }}" placeholder="¥">
 
                 @error('price')
                     <p class="form__error">{{ $message }}</p>

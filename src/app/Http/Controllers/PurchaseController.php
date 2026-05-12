@@ -15,6 +15,10 @@ class PurchaseController extends Controller
         $item =  Item::findOrFail($item_id);
         $profile = $user->profile;
 
+        if ($item->user_id === $user->id) {
+            return redirect('/');
+        }
+
         if ($item->sold_at) {
             return redirect('/');
         }
@@ -26,6 +30,10 @@ class PurchaseController extends Controller
     {
         $user = auth()->user();
         $item = Item::findOrFail($item_id);
+
+        if ($item->user_id === $user->id) {
+            return redirect('/');
+        }
 
         if ($item->sold_at) {
             return redirect('/');

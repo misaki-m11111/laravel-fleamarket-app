@@ -11,7 +11,7 @@
     <div class="form profile">
         <h1 class="form__title">プロフィール設定</h1>
 
-        <form action="/mypage/profile" method="POST" enctype="multipart/form-data" class="form__form">
+        <form action="/mypage/profile" method="PUT" enctype="multipart/form-data" class="form__form">
             @csrf
 
             <div class="profile__image-area">
@@ -29,7 +29,7 @@
 
             <div class="form__group">
                 <label class="form__label">ユーザー名</label>
-                <input type="text" name="name" value="{{ old('name', $profile->name ?? '') }}" class="form__input">
+                <input type="text" name="name" value="{{ old('name', $user->name ?? '') }}" class="form__input">
 
                 @error('name')
                     <p class="form__error">{{ $message }}</p>
@@ -60,6 +60,10 @@
                 <label class="form__label">建物名</label>
                 <input type="text" name="building" value="{{ old('building', $profile->building ?? '') }}"
                     class="form__input">
+
+                @error('building')
+                    <p class="form__error">{{ $message }}</p>
+                @enderror
             </div>
 
             <button type="submit" class="form__button">

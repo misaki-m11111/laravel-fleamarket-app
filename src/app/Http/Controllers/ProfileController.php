@@ -24,8 +24,11 @@ class ProfileController extends Controller
             $profile = new Profile();
             $profile->user_id = $user->id;
         }
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->name = $request->name;
+        $user->save();
 
-        $profile->name = $request->name;
         $profile->post_code = $request->post_code;
         $profile->address = $request->address;
         $profile->building = $request->building;

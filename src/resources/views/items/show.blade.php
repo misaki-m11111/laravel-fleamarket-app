@@ -4,7 +4,6 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/component/user-icon.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/component/item-card.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form/form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/page/item/item-show.css') }}">
 @endsection
@@ -13,6 +12,10 @@
     <div class="item-show">
         <div class="item-show__image-area">
             <img class="item-show__image" src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
+
+            @if ($item->sold_at)
+                <span class="item-show__sold">SOLD</span>
+            @endif
         </div>
 
         <div class="item-show__content">
@@ -48,9 +51,13 @@
                 </div>
             </div>
 
-            <a href="/purchase/{{ $item->id }}" class="form__button purchase-button">
-                購入手続きへ
-            </a>
+            <form action="/purchase/{{ $item->id }}" method="GET">
+
+                <button type="submit" class="form__button purchase-button" {{ $item->sold_at ? 'disabled' : '' }}>
+                    {{ $item->sold_at ? '売り切れのため購入できません' : '購入手続きへ' }}
+                </button>
+
+            </form>
 
             <section class="item-section">
                 <h2>商品説明</h2>
@@ -93,16 +100,18 @@
             <section class="comment-form-section">
                 <h3>商品へのコメント</h3>
 
-                <form id="comment-form" action="/comment/{{ $item->id }}" method="post">
+                <form id="comment-form" action="/comment/{{ $item->id }}" method="POST">
                     @csrf
 
-                    <textarea name="content" class="comment-form__textarea">{{ old('content') }}</textarea>
+                    <textarea name="content" class="comment-form__textarea" {{ $item->sold_at ? 'disabled' : '' }}>{{ old('content') }}</textarea>
 
                     @error('content')
                         <p class="form__error">{{ $message }}</p>
                     @enderror
 
-                    <button type="submit" class="form__button">コメントを送信する</button>
+                    <button type="submit" class="form__button" {{ $item->sold_at ? 'disabled' : '' }}>
+                        {{ $item->sold_at ? '売り切れのためコメントできません' : 'コメントを送信する' }}
+                    </button>
                 </form>
             </section>
         </div>

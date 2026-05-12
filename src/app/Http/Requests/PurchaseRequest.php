@@ -9,7 +9,7 @@ class PurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_method' => 'required',
+            'payment_method' => ['required', 'in:1,2'],
         ];
     }
 
@@ -17,6 +17,7 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'payment_method.required' => '支払い方法をしてください',
+            'payment_method.in' => '支払い方法を正しく選択してください',
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemRequest;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
@@ -63,7 +64,7 @@ class ItemController extends Controller
         return view('items.create', compact('categories', 'conditions'));
     }
 
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         $path = $request->file('image')->store('items', 'public');
 

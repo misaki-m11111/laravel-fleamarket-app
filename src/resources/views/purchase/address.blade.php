@@ -6,7 +6,7 @@
     <div class="form">
         <h1 class="form__title">住所の変更</h1>
 
-        <form action="/purchase/address/{{ $item->id }}" method="POST" class="form__form">
+        <form action="/purchase/address/{{ $item->id }}" method="PUT" class="form__form">
             @csrf
 
             <div class="form__group">
@@ -31,6 +31,10 @@
                 <label class="form__label">建物名</label>
                 <input type="text" name="building" value="{{ old('building', $profile->building ?? '') }}"
                     class="form__input">
+
+                @error('building')
+                    <p class="form__error">{{ $message }}</p>
+                @enderror
             </div>
 
             <button type="submit" class="form__button">更新する</button>
