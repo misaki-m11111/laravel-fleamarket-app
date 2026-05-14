@@ -117,5 +117,5 @@ password: password1234
 MailHog:
 http://localhost:8025
 
-##補足説明
+## 補足説明　　　
 ・一部UI制御にJavaScriptを使用(views/purchase/create.blade.php)
