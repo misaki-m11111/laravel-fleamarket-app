@@ -11,7 +11,7 @@
         <form action="/purchase/{{ $item->id }}" method="POST" class="purchase__form">
             @csrf
 
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
+            <input type="hidden" name="payment_method" id="payment_method_hidden" value="1">
 
             <div class="purchase__left">
                 <div class="purchase-item">
@@ -28,7 +28,7 @@
                 <div class="purchase-section">
                     <h3 class="purchase-section__title">支払い方法</h3>
 
-                    <select name="payment_method" class="purchase-section__select">
+                    <select name="payment_method" id="payment_method" class="purchase-section__select">
                         <option value="">選択してください</option>
                         <option value="1" {{ old('payment_method') == 1 ? 'selected' : '' }}>コンビニ払い</option>
                         <option value="2" {{ old('payment_method') == 2 ? 'selected' : '' }}>クレジットカード払い</option>
@@ -68,7 +68,7 @@
 
                     <div class="purchase-summary__row">
                         <p>支払い方法</p>
-                        <p>コンビニ払い</p>
+                        <p id="payment_summary">コンビニ払い</p>
                     </div>
                 </div>
 
@@ -76,4 +76,27 @@
             </div>
         </form>
     </div>
+    <script>
+        const paymentSelect = document.getElementById('payment_method');
+
+        const paymentSummary = document.getElementById('payment_summary');
+
+        const paymentHidden = document.getElementById('payment_method_hidden');
+
+        paymentSelect.addEventListener('change', function() {
+
+            if (this.value == 1) {
+
+                paymentSummary.textContent = 'コンビニ払い';
+
+            } else if (this.value == 2) {
+
+                paymentSummary.textContent = 'クレジットカード支払い';
+
+            }
+
+            paymentHidden.value = this.value;
+
+        });
+    </script>
 @endsection

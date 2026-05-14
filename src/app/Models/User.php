@@ -4,17 +4,19 @@ namespace App\Models;
 
 use App\Models\Like;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-
-
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
+    use Notifiable;
     protected $fillable = [
         'name',
         'email',
         'password',
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -25,6 +27,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function items(): HasMany
     {
         return $this->hasMany(Item::class);
@@ -45,7 +48,7 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
-        public function purchase(): HasMany
+    public function purchase(): HasMany
     {
         return $this->hasMany(Purchase::class);
     }

@@ -8,10 +8,21 @@ use App\Http\Controllers\MypageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 
+Route::get('/email/verify', function () {
+  return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
 Route::get('/', [ItemController::class, 'index']);
 Route::get('/item/{item_id}', [ItemController::class, 'show']);
 
 Route::middleware('auth')->group(function () {
+
+  Route::get('/mypage/profile', [ProfileController::class, 'edit'])
+    ->middleware('verified');
+
+  Route::put('/mypage/profile', [ProfileController::class, 'update'])
+    ->middleware('verified');
+
   Route::get('/sell', [ItemController::class, 'create']);
   Route::post('/sell', [ItemController::class, 'store']);
 
@@ -22,11 +33,9 @@ Route::middleware('auth')->group(function () {
 
   Route::get('/mypage', [MypageController::class, 'index']);
 
-  Route::get('/mypage/profile', [ProfileController::class, 'edit']);
-  Route::put('/mypage/profile', [ProfileController::class, 'update']);
-
   Route::get('/purchase/{item_id}', [PurchaseController::class, 'create']);
   Route::post('/purchase/{item_id}', [PurchaseController::class, 'store']);
+
   Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress']);
   Route::put('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress']);
 });
