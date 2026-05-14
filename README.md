@@ -3,7 +3,8 @@
 ## 環境構築
 
 Dockerビルド  
-・git clone　
+・git clone  　　
+・DockerDesktopアプリを立ち上げる
 ・docker compose up -d --build
 
 ## Dockerビルド
