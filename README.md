@@ -16,6 +16,9 @@
 - コメント機能
 - マイページ表示
 - プロフィール編集
+- メールを用いた認証(応用要件)
+- 認証メール再送機能(応用要件)
+- 
 
 ## 環境構築
 
@@ -105,3 +108,14 @@ password: password1234
 email: buyer@example.com
 password: password1234
 ```
+※ Seederで作成されるユーザーはメール認証済みです。
+
+## メール認証
+
+新規登録時はメール認証を行ってください。
+
+MailHog:
+http://localhost:8025
+
+##補足説明
+・一部UI制御にJavaScriptを使用(views/purchase/create.blade.php)
