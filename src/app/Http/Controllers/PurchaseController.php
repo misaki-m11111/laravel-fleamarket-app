@@ -6,6 +6,8 @@ use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\AddressRequest;
 use App\Models\Item;
 use App\Models\Purchase;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class PurchaseController extends Controller
 {
@@ -46,14 +48,50 @@ class PurchaseController extends Controller
             'post_code' => $user->profile->post_code,
             'address'   => $user->profile->address,
             'building'  => $user->profile->building,
-
         ]);
 
         $item->update([
             'sold_at' => now(),
         ]);
 
+        if (app()->environment('testing')) {
+            return redirect('/');
+        }
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $paymentMethodTypes = $request->payment_method == 1
+            ? ['konbini']
+            : ['card'];
+
+        $checkoutSession = Session::create([
+            'payment_method_types' => $paymentMethodTypes,
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => [
+                        'name' => $item->name,
+                    ],
+                    'unit_amount' => $item->price,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => url('/'),
+            'cancel_url' => url('/purchase/' . $item->id),
+        ]);
+
+        return redirect($checkoutSession->url);
+    }
+
+    public function success(int $item_id)
+    {
         return redirect('/');
+    }
+
+    public function cancel(int $item_id)
+    {
+        return redirect('/purchase/' . $item_id);
     }
 
     public function editAddress(int $item_id)

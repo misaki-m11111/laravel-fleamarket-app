@@ -13,7 +13,7 @@ class PurchaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_logged_in_user_can_purchase_item()
+    public function test_logged_in_user_can_purchase_item_by_konbini()
     {
         $this->seed();
 
@@ -21,7 +21,7 @@ class PurchaseTest extends TestCase
 
         $buyer = User::create([
             'name' => '購入者',
-            'email' => 'buyer@example.com',
+            'email' => 'buyer_konbini@example.com',
             'password' => bcrypt('password'),
         ]);
 
@@ -42,6 +42,43 @@ class PurchaseTest extends TestCase
             'user_id' => $buyer->id,
             'item_id' => $item->id,
             'payment_method' => 1,
+            'post_code' => '123-4567',
+            'address' => '東京都渋谷区',
+            'building' => 'テストビル101',
+        ]);
+
+        $this->assertNotNull($item->fresh()->sold_at);
+    }
+
+    public function test_logged_in_user_can_purchase_item_by_card()
+    {
+        $this->seed();
+
+        $item = Item::where('name', '腕時計')->first();
+
+        $buyer = User::create([
+            'name' => '購入者',
+            'email' => 'buyer_card@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        Profile::create([
+            'user_id' => $buyer->id,
+            'post_code' => '123-4567',
+            'address' => '東京都渋谷区',
+            'building' => 'テストビル101',
+        ]);
+
+        $response = $this->actingAs($buyer)->post('/purchase/' . $item->id, [
+            'payment_method' => 2,
+        ]);
+
+        $response->assertRedirect('/');
+
+        $this->assertDatabaseHas('purchases', [
+            'user_id' => $buyer->id,
+            'item_id' => $item->id,
+            'payment_method' => 2,
             'post_code' => '123-4567',
             'address' => '東京都渋谷区',
             'building' => 'テストビル101',
@@ -77,7 +114,7 @@ class PurchaseTest extends TestCase
 
         $buyer = User::create([
             'name' => '購入者',
-            'email' => 'buyer2@example.com',
+            'email' => 'buyer_sold@example.com',
             'password' => bcrypt('password'),
         ]);
 
@@ -150,7 +187,7 @@ class PurchaseTest extends TestCase
 
         $buyer = User::create([
             'name' => '購入者',
-            'email' => 'buyer3@example.com',
+            'email' => 'buyer_mypage@example.com',
             'password' => bcrypt('password'),
         ]);
 
