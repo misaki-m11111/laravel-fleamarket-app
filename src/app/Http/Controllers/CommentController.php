@@ -16,11 +16,14 @@ class CommentController extends Controller
             return redirect('/');
         }
 
+        $data = $request->validated();
+
         Comment::create([
             'user_id' => auth()->id(),
             'item_id' => $item_id,
-            'content' => $request->content,
+            'content' => $data['content'],
         ]);
+
 
         return back();
     }
