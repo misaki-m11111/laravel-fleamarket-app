@@ -119,5 +119,5 @@ http://localhost:8025
 
 ## 補足説明  
 ・権限エラーが発生した場合は storage, bootstrap/cache の権限をご確認ください。  
-・一部UI制御にJavaScriptを使用(views/purchase/create.blade.php)  
+・一部UI制御にJavaScriptを使用しています。(views/purchase/create.blade.php)  
 ・PHPUnit 実行時は、外部API通信を防ぐため testing 環境では Stripe 処理をスキップしています。
