@@ -1,7 +1,7 @@
 <header class="header">
     <div class="header__inner">
         <a href="/" class="header__logo">
-            <img src="{{ asset('images/logo.png') }}" alt="COACHTECH">
+            <img src="{{ asset('images/logos/logo.png') }}" alt="COACHTECH">
         </a>
 
         @unless (request()->is('login') || request()->is('register'))
@@ -20,6 +20,7 @@
                     <a href="/sell" class="header__sell">出品</a>
                 @else
                     <a href="/login" class="header__link">ログイン</a>
+                    <a href="/mypage" class="header__link">マイページ</a>
                     <a href="/sell" class="header__sell">出品</a>
                 @endauth
             </nav>

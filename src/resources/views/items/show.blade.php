@@ -11,7 +11,7 @@
 @section('content')
     <div class="item-show">
         <div class="item-show__image-area">
-            <img class="item-show__image" src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
+            <img class="item-show__image" src="{{ asset($item->image) }}" alt="{{ $item->name }}">
 
             @if ($item->sold_at)
                 <span class="item-show__sold">SOLD</span>
@@ -31,11 +31,11 @@
                         @if ($item->likes->where('user_id', auth()->id())->count())
                             @method('DELETE')
                             <button type="submit" class="item-action__button">
-                                <img src="{{ asset('images/heart-pink.png') }}" alt="いいね解除">
+                                <img src="{{ asset('images/icons/heart-pink.png') }}" alt="いいね解除">
                             </button>
                         @else
                             <button type="submit" class="item-action__button">
-                                <img src="{{ asset('images/heart-white.png') }}" alt="いいね">
+                                <img src="{{ asset('images/icons/heart-white.png') }}" alt="いいね">
                             </button>
                         @endif
                     </form>
@@ -45,7 +45,7 @@
 
                 <div class="item-action">
                     <a href="#comment-form" class="item-action__button">
-                        <img src="{{ asset('images/comment.png') }}" alt="コメント">
+                        <img src="{{ asset('images/icons/comment.png') }}" alt="コメント">
                     </a>
                     <p class="item-action__count">{{ $item->comments->count() }}</p>
                 </div>
