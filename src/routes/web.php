@@ -15,13 +15,10 @@ Route::get('/email/verify', function () {
 Route::get('/', [ItemController::class, 'index']);
 Route::get('/item/{item_id}', [ItemController::class, 'show']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
-  Route::get('/mypage/profile', [ProfileController::class, 'edit'])
-    ->middleware('verified');
-
-  Route::put('/mypage/profile', [ProfileController::class, 'update'])
-    ->middleware('verified');
+  Route::get('/mypage/profile', [ProfileController::class, 'edit']);
+  Route::put('/mypage/profile', [ProfileController::class, 'update']);
 
   Route::get('/sell', [ItemController::class, 'create']);
   Route::post('/sell', [ItemController::class, 'store']);
@@ -35,10 +32,9 @@ Route::middleware('auth')->group(function () {
 
   Route::get('/purchase/{item_id}', [PurchaseController::class, 'create']);
   Route::post('/purchase/{item_id}', [PurchaseController::class, 'store']);
-
-  Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success']);
-  Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel']);
-
   Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress']);
   Route::put('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress']);
 });
+
+Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success']);
+Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel']);
