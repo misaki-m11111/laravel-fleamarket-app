@@ -139,14 +139,115 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 
 ## テーブル設計
 
-- users
-- items
-- profiles
-- comments
-- likes
-- categories
-- category_item
-- purchases
+### usersテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | ユーザーID |
+| name | string | not null | ユーザー名 |
+| email | string | not null / unique | メールアドレス |
+| email_verified_at | timestamp | nullable | メール認証日時 |
+| password | string | not null | パスワード |
+| remember_token | string | nullable | ログイン保持用トークン |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### profilesテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | プロフィールID |
+| user_id | bigint | foreign key / unique | ユーザーID |
+| image | string | nullable | プロフィール画像 |
+| post_code | string | not null | 郵便番号 |
+| address | string | not null | 住所 |
+| building | string | nullable | 建物名 |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### itemsテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | 商品ID |
+| user_id | bigint | foreign key | 出品者ID |
+| name | string | not null | 商品名 |
+| image | string | not null | 商品画像 |
+| price | integer | not null | 価格 |
+| brand_name | string | nullable | ブランド名 |
+| description | text | not null | 商品説明 |
+| condition | tinyInteger | not null | 商品状態 |
+| sold_at | timestamp | nullable | 購入日時 |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### commentsテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | コメントID |
+| user_id | bigint | foreign key | ユーザーID |
+| item_id | bigint | foreign key | 商品ID |
+| content | text | not null | コメント内容 |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### likesテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | いいねID |
+| user_id | bigint | foreign key / unique(item_idと複合) | ユーザーID |
+| item_id | bigint | foreign key / unique(user_idと複合) | 商品ID |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### categoriesテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | カテゴリーID |
+| name | string | not null / unique | カテゴリー名 |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### category_itemテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | カテゴリー商品ID |
+| item_id | bigint | foreign key / unique(category_idと複合) | 商品ID |
+| category_id | bigint | foreign key / unique(item_idと複合) | カテゴリーID |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
+
+---
+
+### purchasesテーブル
+
+| カラム名 | 型 | 制約 | 説明 |
+|---|---|---|---|
+| id | bigint | primary key | 購入ID |
+| user_id | bigint | foreign key | 購入者ID |
+| item_id | bigint | foreign key / unique | 商品ID |
+| post_code | string | not null | 配送先郵便番号 |
+| address | string | not null | 配送先住所 |
+| building | string | nullable | 配送先建物名 |
+| payment_method | tinyInteger | not null | 支払い方法 |
+| created_at | timestamp | nullable | 作成日時 |
+| updated_at | timestamp | nullable | 更新日時 |
 
 ## URL
 
