@@ -23,6 +23,7 @@ class PurchaseTest extends TestCase
             'name' => '購入者',
             'email' => 'buyer_konbini@example.com',
             'password' => bcrypt('password'),
+            'email_verified_at' => now(),
         ]);
 
         Profile::create([
@@ -60,6 +61,7 @@ class PurchaseTest extends TestCase
             'name' => '購入者',
             'email' => 'buyer_card@example.com',
             'password' => bcrypt('password'),
+            'email_verified_at' => now(),
         ]);
 
         Profile::create([
@@ -116,6 +118,7 @@ class PurchaseTest extends TestCase
             'name' => '購入者',
             'email' => 'buyer_sold@example.com',
             'password' => bcrypt('password'),
+            'email_verified_at' => now(),
         ]);
 
         Profile::create([
@@ -189,6 +192,7 @@ class PurchaseTest extends TestCase
             'name' => '購入者',
             'email' => 'buyer_mypage@example.com',
             'password' => bcrypt('password'),
+            'email_verified_at' => now(),
         ]);
 
         Profile::create([

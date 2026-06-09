@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Purchase;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -31,28 +32,40 @@ class PurchaseController extends Controller
     public function store(PurchaseRequest $request, int $item_id)
     {
         $user = auth()->user();
-        $item = Item::findOrFail($item_id);
 
-        if ($item->user_id === $user->id) {
+        $purchase = DB::transaction(function () use ($request, $user, $item_id) {
+
+            $item = Item::where('id', $item_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($item->user_id === $user->id) {
+                return null;
+            }
+
+            if ($item->sold_at) {
+                return null;
+            }
+
+            $purchase = Purchase::create([
+                'user_id' => $user->id,
+                'item_id' => $item->id,
+                'payment_method' => $request->payment_method,
+                'post_code' => $user->profile->post_code,
+                'address' => $user->profile->address,
+                'building' => $user->profile->building,
+            ]);
+
+            $item->update([
+                'sold_at' => now(),
+            ]);
+
+            return $purchase;
+        });
+
+        if (!$purchase) {
             return redirect('/');
         }
-
-        if ($item->sold_at) {
-            return redirect('/');
-        }
-
-        $purchase = Purchase::create([
-            'user_id' => $user->id,
-            'item_id' =>  $item->id,
-            'payment_method' => $request->payment_method,
-            'post_code' => $user->profile->post_code,
-            'address'   => $user->profile->address,
-            'building'  => $user->profile->building,
-        ]);
-
-        $item->update([
-            'sold_at' => now(),
-        ]);
 
         if (app()->environment('testing')) {
             return redirect('/');
@@ -70,20 +83,19 @@ class PurchaseController extends Controller
                 'price_data' => [
                     'currency' => 'jpy',
                     'product_data' => [
-                        'name' => $item->name,
+                        'name' => $purchase->item->name,
                     ],
-                    'unit_amount' => $item->price,
+                    'unit_amount' => $purchase->item->price,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
             'success_url' => url('/'),
-            'cancel_url' => url('/purchase/' . $item->id),
+            'cancel_url' => url('/purchase/' . $purchase->item->id),
         ]);
 
         return redirect($checkoutSession->url);
     }
-
     public function success(int $item_id)
     {
         return redirect('/');

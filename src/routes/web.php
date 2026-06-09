@@ -16,7 +16,6 @@ Route::get('/', [ItemController::class, 'index']);
 Route::get('/item/{item_id}', [ItemController::class, 'show']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
   Route::get('/mypage/profile', [ProfileController::class, 'edit']);
   Route::put('/mypage/profile', [ProfileController::class, 'update']);
 
@@ -34,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/purchase/{item_id}', [PurchaseController::class, 'store']);
   Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress']);
   Route::put('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress']);
-});
 
-Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success']);
-Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel']);
+  Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success']);
+  Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel']);
+});
