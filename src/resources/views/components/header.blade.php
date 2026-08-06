@@ -1,7 +1,9 @@
 <header class="header">
     <div class="header__inner">
-        <a href="/" class="header__logo">
-            <img src="{{ asset('images/logos/logo.png') }}" alt="COACHTECH">
+        <a href="/" class="header__logo" aria-label="meguru ホーム">
+            <span class="header__logo-text">
+                meguru<span class="header__logo-accent">.</span>
+            </span>
         </a>
 
         @unless (request()->is('login') || request()->is('register'))

@@ -14,12 +14,23 @@
 }
 
 .header__logo {
-    justify-self: start;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: #ffffff;
+    text-decoration: none;
 }
 
-.header__logo img {
-    height: 30px;
-    display: block;
+.header__logo-text {
+    font-family: "Poppins", "Arial", sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.header__logo-accent {
+    color: #ff5555;
 }
 
 .header__search {
