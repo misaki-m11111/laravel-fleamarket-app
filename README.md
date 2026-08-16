@@ -4,138 +4,119 @@
 
 ユーザー登録、ログイン、商品出品、商品購入、いいね、コメントなどができるフリーマーケットアプリです。
 
-## 機能一覧
+Laravelを使用し、商品管理・ユーザー管理・購入処理に加えて、メール認証やStripe Checkoutによる決済機能を実装しています。
+
+---
+
+## 公開デモ
+
+実際のアプリはこちらから確認できます。
+
+**公開URL**
+
+https://fleamarket.misaki-portfolio.com
+
+### デモアカウント
+
+動作確認用として、以下のデモアカウントを用意しています。
+
+#### 出品者アカウント
+
+```txt
+email: seller@example.com
+password: password1234
+```
+
+#### 購入者アカウント
+
+```txt
+email: buyer@example.com
+password: password1234
+```
+
+出品・購入・いいね・コメント・マイページなどの各機能を確認できます。
+
+※ Seederで作成されるデモユーザーはメール認証済みです。
+
+---
+
+## 主な機能
+
+### 認証
 
 - 会員登録
 - ログイン / ログアウト
+- メール認証
+- 認証メール再送
+
+### 商品
+
 - 商品一覧表示
 - 商品詳細表示
 - 商品検索
 - 商品出品
 - 商品購入
-- 送付先住所変更
-- いいね機能
-- コメント機能
+- Stripe決済
+
+### ユーザー
+
 - マイページ表示
 - プロフィール編集
-- メールを用いた認証（応用要件）
-- 認証メール再送機能（応用要件）
-- Stripe決済（応用要件）
+- 送付先住所変更
+- 購入した商品一覧表示
+- 出品した商品一覧表示
 
-## 環境構築
+### その他
 
-### Dockerビルド
+- いいね機能
+- コメント機能
+- マイリスト表示
 
-1. `git clone` git@github.com:misaki-m11111/laravel-fleamarket-app.git  
-2. Docker Desktopアプリを立ち上げる
-3. 以下のコマンドを実行する
+---
 
-```bash
-docker compose up -d --build
-```
+## 使用技術
 
-※ MySQLは、OSによって起動しない場合があるため、それぞれのPCに合わせて `docker-compose.yml` ファイルを編集してください。
-
-## Laravel環境構築
-
-1. PHPコンテナに入る
-
-```bash
-docker compose exec php bash
-```
-
-2. Composerパッケージをインストールする
-
-```bash
-composer install
-```
-
-3. `.env` ファイルを作成する
-
-```bash
-cp .env.example .env
-```
-
-4. `.env` ファイルの一部を以下のように編集する
-
-```env
-DB_HOST=mysql
-DB_DATABASE=laravel_db  
-DB_USERNAME=laravel_user  
-DB_PASSWORD=laravel_pass  
-```
-
-5. アプリケーションキーを作成する
-
-```bash
-php artisan key:generate
-```
-
-6. マイグレーションを実行する
-
-```bash
-php artisan migrate
-```
-
-7. シーディングを実行する
-
-```bash
-php artisan db:seed
-```
-
-8. シンボリックリンクを作成する
-
-```bash
-php artisan storage:link
-```
-
-## メール認証
-
-本アプリでは、新規会員登録時にMailHogを使用してメール認証を行います。
-
-MailHog: http://localhost:8025
-
-### 確認手順
-
-1. 新規会員登録を行う
-2. MailHogを開く
-3. 受信した認証メール内のリンクをクリックする
-4. 認証後、アプリ画面へ遷移することを確認する
-
-## Stripe
-
-本アプリでは、商品購入の決済としてStripe Checkoutを使用しています。
-
-Stripeを使用するため、`.env` に以下を設定してください。  
-`STRIPE_KEY` と `STRIPE_SECRET` は、Stripeダッシュボードのテスト環境から取得してください。
-
-```env
-STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
-STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
-```
-
-### Stripe決済の動作確認
-
-1. ログインします。
-2. 商品詳細ページから「購入手続きへ」をクリックします。
-3. 支払い方法を選択します。
-4. 購入ボタンをクリックします。
-5. Stripe Checkout画面に遷移することを確認します。
-6. 支払い方法を入力して決済を完了します。
-7. 決済完了後、アプリの完了ページまたはトップページに戻ることを確認します。
-
-## 使用技術（実行環境）
-
-| 技術 | バージョン |
+| 技術 | バージョン / 用途 |
 |---|---|
 | PHP | 8.1.33 |
 | Laravel | 8.83.8 |
 | MySQL | 8.0.26 |
 | Nginx | 1.21 |
+| Docker | 開発環境 |
+| MailHog | メール認証確認 |
+| Stripe Checkout | 商品購入時の決済 |
+| JavaScript | 購入画面の一部UI制御 |
+| PHPUnit | Featureテスト |
+
+---
+
+## 工夫した点
+
+### 自分の商品を購入できないよう制御
+
+自分が出品した商品を購入できてしまうと、想定していない購入情報が登録されるため、購入処理に制御を追加しました。
+
+ControllerでログインユーザーIDと商品の出品者IDを比較し、一致する場合は購入処理を行わず商品一覧へリダイレクトすることで、不正な購入データが登録されないようにしています。
+
+### Stripe Checkoutを利用した決済
+
+商品購入時の決済にStripe Checkoutを使用しています。
+
+アプリケーション側で商品情報や支払い方法をもとにCheckout Sessionを作成し、Stripeの決済画面へ遷移するように実装しています。
+
+また、PHPUnit実行時には外部API通信が発生しないよう、`testing` 環境ではStripe処理をスキップするようにしています。
+
+### PHPUnitによるテスト
+
+主要機能についてPHPUnitによるFeatureテストを実装し、認証・商品表示・購入処理などが想定どおり動作することを確認しています。
+
+---
 
 ## ER図
 
 <img width="1502" height="1141" alt="fleamarket-app-er" src="https://github.com/user-attachments/assets/e28bfd41-9c5c-48c3-ab54-b1d9e8567bdc" />
+
+---
 
 ## テーブル設計
 
@@ -249,6 +230,8 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 | created_at | timestamp | nullable | 作成日時 |
 | updated_at | timestamp | nullable | 更新日時 |
 
+---
+
 ## URL
 
 | ページ | URL |
@@ -263,47 +246,163 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 | 住所変更ページ | `/purchase/address/{item_id}` |
 | プロフィールページ | `/mypage` |
 | プロフィール編集ページ | `/mypage/profile` |
-| プロフィールページ（購入した商品一覧） | `/mypage?my=buy` |
-| プロフィールページ（出品した商品一覧） | `/mypage?my=sell` |
-| phpMyAdmin | http://localhost:8080 |
+| 購入した商品一覧 | `/mypage?my=buy` |
+| 出品した商品一覧 | `/mypage?my=sell` |
+| phpMyAdmin | `http://localhost:8080` |
+| MailHog | `http://localhost:8025` |
 
-## テスト用アカウント
+---
 
-### 出品者アカウント
+# 環境構築
 
-```txt
-email: seller@example.com
-password: password1234
+## Dockerビルド
+
+### 1. リポジトリをクローンする
+
+```bash
+git clone git@github.com:misaki-m11111/laravel-fleamarket-app.git
 ```
 
-### 購入者アカウント
+### 2. Docker Desktopを起動する
 
-```txt
-email: buyer@example.com
-password: password1234
+Docker Desktopアプリを立ち上げます。
+
+### 3. Dockerコンテナを起動する
+
+```bash
+docker compose up -d --build
 ```
 
-※ Seederで作成されるユーザーはメール認証済みです。
+※ MySQLはOSや環境によって起動しない場合があるため、必要に応じて `docker-compose.yml` を編集してください。
 
-## PHPUnitテスト
+---
+
+## Laravel環境構築
+
+### 1. PHPコンテナに入る
+
+```bash
+docker compose exec php bash
+```
+
+### 2. Composerパッケージをインストールする
+
+```bash
+composer install
+```
+
+### 3. `.env` ファイルを作成する
+
+```bash
+cp .env.example .env
+```
+
+### 4. `.env` のデータベース設定を編集する
+
+```env
+DB_HOST=mysql
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
+```
+
+### 5. アプリケーションキーを作成する
+
+```bash
+php artisan key:generate
+```
+
+### 6. マイグレーションを実行する
+
+```bash
+php artisan migrate
+```
+
+### 7. シーディングを実行する
+
+```bash
+php artisan db:seed
+```
+
+### 8. シンボリックリンクを作成する
+
+```bash
+php artisan storage:link
+```
+
+---
+
+# メール認証
+
+本アプリでは、新規会員登録時にMailHogを使用してメール認証を行います。
+
+MailHog：
+
+```text
+http://localhost:8025
+```
+
+## 確認手順
+
+1. 新規会員登録を行う
+2. MailHogを開く
+3. 受信した認証メールを確認する
+4. メール内の認証リンクをクリックする
+5. 認証後、アプリ画面へ遷移することを確認する
+
+---
+
+# Stripe
+
+本アプリでは、商品購入時の決済にStripe Checkoutを使用しています。
+
+Stripeを使用するため、`.env` に以下を設定してください。
+
+`STRIPE_KEY` と `STRIPE_SECRET` は、Stripeダッシュボードのテスト環境から取得します。
+
+```env
+STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
+STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
+```
+
+## Stripe決済の動作確認
+
+1. 購入者アカウントでログインする
+2. 商品詳細ページから「購入手続きへ」をクリックする
+3. 支払い方法を選択する
+4. 購入ボタンをクリックする
+5. Stripe Checkout画面へ遷移することを確認する
+6. テスト用の支払い情報を入力して決済する
+7. 決済完了後、アプリの完了ページまたはトップページへ戻ることを確認する
+
+---
+
+# PHPUnitテスト
 
 本アプリでは、PHPUnitを使用してFeatureテストを実装しています。
 
-### テスト準備
+## テスト準備
 
-テスト実行前に、テスト用データベースを作成してください。
+### 1. MySQLコンテナに入る
 
 ```bash
 docker compose exec mysql bash
+```
+
+### 2. MySQLへログインする
+
+```bash
 mysql -u root -p
 ```
+
+### 3. テスト用データベースを作成する
 
 ```sql
 CREATE DATABASE laravel_test;
 exit;
 ```
 
-`.env.testing` を以下のように設定します。
+### 4. `.env.testing` を設定する
 
 ```env
 DB_CONNECTION=mysql
@@ -314,23 +413,30 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 ```
 
-設定後、PHPコンテナ内で以下を実行します。
+### 5. PHPコンテナ内でテスト環境を準備する
 
 ```bash
 docker compose exec php bash
+```
+
+```bash
 php artisan key:generate --env=testing
 php artisan config:clear
 ```
 
-### テスト実行方法
+## テスト実行方法
+
+PHPコンテナ内で以下を実行します。
 
 ```bash
 php artisan test
 ```
 
+---
+
 ## 補足説明
 
 - 権限エラーが発生した場合は、`storage` と `bootstrap/cache` の権限を確認してください。
-- 一部UI制御にJavaScriptを使用しています。  
-  対象ファイル: `views/purchase/create.blade.php`
-- PHPUnit実行時は、外部API通信を防ぐため、`testing` 環境ではStripe処理をスキップしています。
+- 購入画面の一部UI制御にJavaScriptを使用しています。
+- JavaScriptを使用しているBladeファイル：`resources/views/purchase/create.blade.php`
+- PHPUnit実行時は外部API通信を防ぐため、`testing` 環境ではStripe処理をスキップしています。
